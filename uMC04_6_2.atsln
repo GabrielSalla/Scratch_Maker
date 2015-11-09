@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LUFA_PROJECTS_USB_TO_SERIAL3", "LUFA_PROJECTS_USB_TO_SERIAL3\LUFA_PROJECTS_USB_TO_SERIAL3_6_2.cproj", "{34406983-79E8-401D-8CC2-452B099E3BEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34406983-79E8-401D-8CC2-452B099E3BEB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{34406983-79E8-401D-8CC2-452B099E3BEB}.Debug|AVR.Build.0 = Debug|AVR
+		{34406983-79E8-401D-8CC2-452B099E3BEB}.Release|AVR.ActiveCfg = Release|AVR
+		{34406983-79E8-401D-8CC2-452B099E3BEB}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
