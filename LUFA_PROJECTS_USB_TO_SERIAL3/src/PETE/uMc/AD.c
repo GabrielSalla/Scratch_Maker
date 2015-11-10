@@ -110,7 +110,7 @@ uint16_t leiuraMediaSleep(uint8_t channel){
 	else ADMUX = (0xf0 & ADMUX) | channel;
 	ADCSRA |= (1 << ADSC);
 	for(uint8_t i=0; i<numeroDeLeituraMedia; i++){
-		sleep_mode();
+		//sleep_mode();
 		oversample += ADC;
 	}
 	return(oversample >> deslocamentoParaMediaLeituras);

@@ -7,8 +7,9 @@
 #include "uMc.h"
 
 int8_t	baterias;
-uint8_t cont_disc = 0;
 uint8_t status = 0;
+uint8_t v10, v11, v12, v13;
+uint16_t valsv1, valsv2;
 
 /**
 * FUNÇÃO PRINCIPAL. 
@@ -16,6 +17,10 @@ uint8_t status = 0;
 int main(void){
 	milliseconds = 0;
 	CLKPR = 0x80;
+	
+	valsv1 = 3100;
+	valsv2 = 3100;
+	
 	LD3R_on();
 	iniciaHardware();
 	
@@ -27,7 +32,7 @@ int main(void){
 		else
 			mc_executa();
 			
-		reInicia_uMC();
+		//reInicia_uMC();
 		ApagarLeds();
 	}
 	
@@ -79,13 +84,13 @@ void mc_executa(){
 	while(uMC_Modo == MODO_EXECUTAR){
 		CDC_Device_USBTask(&VirtualSerial_CDC_Interface);
 		USB_USBTask();
-		if(milliseconds - tempo >= 3 && status == 1){
+		if(milliseconds - tempo >= 5 && status == 1){
 			tempo = milliseconds;
 			lerEntradasuMC();
 	
 			receberUSB();
 	
-			scratchCom(); // Verifica se há e trata a coomunicaçao com o PC
+			scratchCom();
 			for(i = ad0Valor; i <= ad5Valor; i++){
 				sensor = i - ad0Valor;
 				envieUSB_Char(0x80 | ((sensor & 0x0F)<<3) | ((registradores[sensor] >> 7) & 0x07));
@@ -126,14 +131,80 @@ void testeCom(){
 }
 
 void scratchCom(){
+	uint8_t channel;
+	uint16_t v16b;
+	
 	if(palavraLida(MODO_EXECUTAR)==1){
-		if(palavraRecebida[0] == 0xE8){
-			if(palavraRecebida[1] == 0){
-				L3_off();
-			}
-			else{
-				L3_on();
-			}
+		channel = (palavraRecebida[0] >> 3) & 0x0F;
+		v16b = ((palavraRecebida[0] & 0x03) << 7) | palavraRecebida[1];
+		switch(channel){
+			case 4:
+				switch(v16b){
+					case 0:
+						me_re;
+						break;
+					case 0xB4:
+						me_frente;
+						break;
+					case 0xFF:
+						me_parado;
+						break;
+				}
+				transmitByte((v16b & 0xFF00) >> 8);
+				transmitByte(v16b & 0xFF);
+				if(v16b != 0xFF)
+					OCR1A = v16b * 11 + 500;
+				break;
+			
+			case 7:
+				switch(v16b){
+					case 0:
+					md_re;
+					break;
+					case 0xB4:
+					md_frente;
+					break;
+					case 0xFF:
+					md_parado;
+					break;
+				}
+				break;
+			
+			case 8:
+				if(v16b != 0xFF)
+					OCR1B = v16b * 11 + 500;
+				break;
+				
+			case 10:
+				if(v16b)
+					p10_set;
+				else
+					p10_reset;
+				break;
+				
+			case 11:
+				if(v16b)
+					p11_set;
+				else
+					p11_reset;
+				break;
+				
+			case 12:
+				if(v16b)
+					p12_set;
+				else
+					p12_reset;
+				break;
+				
+			case 13:
+				if(v16b)
+					p13_set;
+				else
+					p13_reset;
+				break;
+				
+			default:
+				break;
 		}
 		resetBuffer();
 	}
@@ -202,7 +273,6 @@ void receberUSB(void){
 	
 	/* apenas tenta ler um byte da CDC interface se o buffer não está cheio. */
 	while(ReceivedByte >= 0){
-		cont_disc = 0;
 		if(!(RingBuffer_IsFull(&USB_DadosRecebidos_pt))){
 			ReceivedByte = CDC_Device_ReceiveByte(&VirtualSerial_CDC_Interface);
 
@@ -382,26 +452,20 @@ int8_t palavraLida(uint8_t modo){
 			dado = RingBuffer_Remove(&USB_DadosRecebidos_pt);
 			if(readingStage == 0){
 				if(dado & 0x80){
-					palavraRecebida_pt = 0;
-					palavraRecebida[palavraRecebida_pt++] = dado;
-					palavraRecebida[palavraRecebida_pt] = 0;
+					palavraRecebida[0] = dado;
 					readingStage = 1;
 				}
 			}
 			else{
 				if(readingStage == 1){
 					if(!(dado & 0x80)){
-						palavraRecebida[palavraRecebida_pt++] = dado;
-						palavraRecebida[palavraRecebida_pt] = 0;
-						readingStage = 2;
+						palavraRecebida[1] = dado;
+						readingStage = 0;
+						return 1;
 					}
 					else{
 						readingStage = 0;
 					}
-				}
-				if(readingStage == 2){
-					readingStage = 0;
-					return 1;
 				}
 			}
 		}
