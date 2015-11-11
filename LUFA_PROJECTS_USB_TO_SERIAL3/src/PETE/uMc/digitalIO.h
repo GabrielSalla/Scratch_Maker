@@ -15,36 +15,8 @@
 	/***********************************/
 	/*  LEDS						   */
 	/*								   */
-	/** Mascara para o led D3R. */
-	#define LED_D3R (1 << PE0)
-	#define LD3R_on() (PORTE |= LED_D3R)
-	#define LD3R_off() (PORTE &= ~LED_D3R)
-	#define LD3R_toogle() (PORTE ^= LED_D3R)
-	
-	/** Mascara para o led D3G. */
-	#define LED_D3G (1 << PE1)
-	#define LD3G_on() (PORTE |= LED_D3G)
-	#define LD3G_off() (PORTE &= ~LED_D3G)
-	#define LD3G_toogle() (PORTE ^= LED_D3G)
 	
 	
-	/** Mascara para o led 1. */
-	#define LED_L1 (1 << PA0)
-	#define L1_on() (PORTA |= LED_L1)
-	#define L1_off() (PORTA &= ~LED_L1)
-	#define L1_toogle() (PORTA ^= LED_L1)
-	
-	/** Mascara para o led 2. */
-	#define LED_L2 (1 << PA1)
-	#define L2_on() (PORTA |= LED_L2)
-	#define L2_off() (PORTA &= ~LED_L2)
-	#define L2_toogle() (PORTA ^= LED_L2)
-	
-	/** Mascara para o led 3. */
-	#define LED_L3 (1 << PA2)
-	#define L3_on() (PORTA |= LED_L3)
-	#define L3_off() (PORTA &= ~LED_L3)
-	#define L3_toogle() (PORTA ^= LED_L3)
 			
 	/***********************************/
 	/*  Botões   					   */

@@ -83,7 +83,7 @@ void acendeLed(int8_t l){
 			L3_on();
 			break;
 	}
-}
+}*/
 
 //  Apaga os leds do uMC
 void apagaLed(int8_t l){

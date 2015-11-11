@@ -10,7 +10,7 @@
 void inicia_uMC(){
 	configura_pinos_uMC();
 	//inicia_LEDS();
-	inicia_Botoes();
+	//inicia_Botoes();
 	inicia_USART();
 	inicia_AD();
 	inicia_Timer();

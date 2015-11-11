@@ -6,61 +6,92 @@
 
 #include "uMc.h"
 
-int8_t	baterias;
-uint8_t status = 0;
-uint8_t v10, v11, v12, v13;
-uint16_t valsv1, valsv2;
-
 /**
 * FUNÇÃO PRINCIPAL. 
  */
 int main(void){
-	milliseconds = 0;
-	CLKPR = 0x80;
-	
-	valsv1 = 3100;
-	valsv2 = 3100;
-	
-	LD3R_on();
 	iniciaHardware();
 	
-	setupADCSleepmode();
+	milliseconds = 0;
 	
-	while(1){
-		if(uMC_Modo == MODO_CONECTADO)
-			mc_conectado();
-		else
-			mc_executa();
-			
-		//reInicia_uMC();
-		ApagarLeds();
-	}
+	//setupADCSleepmode();
+	mc_executa();
 	
 	while(1);
 }
 
-ISR(TIMER0_COMPA_vect){	
+ISR(TIMER0_COMPA_vect){
 	milliseconds++;
-	if(status == 1){
-		if(uMC_Modo == MODO_EXECUTAR){
-			if(milliseconds % 40 == 0)
-				L1_toogle();
-		}
-		else{
-			if(milliseconds % 150 == 0)
-			L1_toogle();
+	
+	if(conStatus == 1){
+		if(milliseconds % 40 == 0){
+			LD3R_off();
+			LD3G_toogle();
 		}
 	}
 	else{
-		if(milliseconds % 500 == 0)
-			L1_toogle();
+		if(milliseconds % 500 == 0){
+			LD3G_off();
+			LD3R_toogle();
+		}
+	}
+}
+
+ISR(TIMER2_COMPA_vect){
+	contAnalogico++;
+	
+	if(contAnalogico == 255){
+		if(cont5 == analogico5 && analogico5 != 0){
+			p05_set;
+			cont5 = 0;
+		}
+		else{
+			p05_reset;
+		}
+		
+		if(cont6 == analogico6 && analogico6 != 0){
+			p06_set;
+			cont6 = 0;
+		}
+		else{
+			p06_reset;
+		}
+		
+		
+		if(cont9 == analogico9 && analogico9 != 0){
+			p09_set;
+			cont9 = 0;
+		}
+		else{
+			p09_reset;
+		}
+			
+		contAnalogico = 0;
+	}
+	if(cont5 == analogico5){
+		p05_reset;
+	}
+	else{
+		cont5++;
+	}
+	if(cont6 == analogico6){
+		p06_reset;
+	}
+	else{
+		cont6++;
+	}
+	if(cont9 == analogico9){
+		p09_reset;
+	}
+	else{
+		cont9++;
 	}
 }
 
 //******************************************************
 // Rotina que gerencia o modo conectado
 
-void mc_conectado(){
+/*void mc_conectado(){
 	unsigned long int tempo = milliseconds;
 	
 	while(uMC_Modo == MODO_CONECTADO){
@@ -73,46 +104,49 @@ void mc_conectado(){
 			testeCom(); // Verifica se há e trata a coomunicaçao com o PC
 		}
 	}
-}
+}*/
 
 // Rotina que gerencia o modo de execução
 void mc_executa(){
-	uint8_t i, sensor;
+	uint8_t i;
 	unsigned long int tempo;
 	
 	tempo = milliseconds;
-	while(uMC_Modo == MODO_EXECUTAR){
+	while(1){
 		CDC_Device_USBTask(&VirtualSerial_CDC_Interface);
 		USB_USBTask();
-		if(milliseconds - tempo >= 5 && status == 1){
+		
+		if(milliseconds - tempo >= 5){
 			tempo = milliseconds;
-			lerEntradasuMC();
+			
+			if(conStatus == 1){
+				lerEntradasuMC();
 	
-			receberUSB();
+				receberUSB();
 	
-			scratchCom();
-			for(i = ad0Valor; i <= ad5Valor; i++){
-				sensor = i - ad0Valor;
-				envieUSB_Char(0x80 | ((sensor & 0x0F)<<3) | ((registradores[sensor] >> 7) & 0x07));
-				envieUSB_Char(registradores[i] & 0x7F);
-			}
+				scratchCom();
+				for(i = ad0Valor; i <= ad5Valor; i++){
+					envieUSB_Char(0x80 | ((i - ad0Valor)<<3) | (registradores[i] >> 7));
+					envieUSB_Char(registradores[i] & 0x7F);
+				}
 	
-			if(registradores[p02Valor]){
-				envieUSB_Char(0x80 | ((6 & 0x0F)<<3) | 0x07);
-				envieUSB_Char(0x7F);
-			}
-			else{
-				envieUSB_Char(0x80 | ((6 & 0x0F)<<3));
-				envieUSB_Char(0);
-			}
+				if(registradores[p02Valor]){
+					envieUSB_Char(0xB7);
+					envieUSB_Char(0x7F);
+				}
+				else{
+					envieUSB_Char(0xB0);
+					envieUSB_Char(0);
+				}
 	
-			if(registradores[p03Valor]){
-				envieUSB_Char(0x80 | ((7 & 0x0F)<<3) | 0x07);
-				envieUSB_Char(0x7F);
-			}
-			else{
-				envieUSB_Char(0x80 | ((7 & 0x0F)<<3));
-				envieUSB_Char(0);
+				if(registradores[p03Valor]){
+					envieUSB_Char(0xB8);
+					envieUSB_Char(0x7F);
+				}
+				else{
+					envieUSB_Char(0xB8);
+					envieUSB_Char(0);
+				}
 			}
 		}
 	}
@@ -141,38 +175,49 @@ void scratchCom(){
 			case 4:
 				switch(v16b){
 					case 0:
-						me_re;
+						ME_re;
 						break;
 					case 0xB4:
-						me_frente;
+						ME_frente;
 						break;
 					case 0xFF:
-						me_parado;
+						ME_pare;
 						break;
 				}
-				transmitByte((v16b & 0xFF00) >> 8);
-				transmitByte(v16b & 0xFF);
 				if(v16b != 0xFF)
 					OCR1A = v16b * 11 + 500;
 				break;
+				
+			case 5:
+				analogico5 = v16b;
+				break;
+				
+			case 6:
+				analogico6 = v16b;
+				break;
+				
 			
 			case 7:
 				switch(v16b){
 					case 0:
-					md_re;
-					break;
+						MD_re;
+						break;
 					case 0xB4:
-					md_frente;
-					break;
+						MD_frente;
+						break;
 					case 0xFF:
-					md_parado;
-					break;
+						MD_pare;
+						break;
 				}
 				break;
 			
 			case 8:
 				if(v16b != 0xFF)
 					OCR1B = v16b * 11 + 500;
+				break;
+				
+			case 9:
+				analogico9 = v16b;
 				break;
 				
 			case 10:
@@ -211,23 +256,25 @@ void scratchCom(){
 }
 
 // Posiciona os servos em 90 graus
-void PosicionarServos(){
+/*void PosicionarServos(){
 	sv1_angulo(90);
 	sv2_angulo(90);
-}
+}*/
 
 // Apagar os Leds da placa
-void ApagarLeds(){
+/*void ApagarLeds(){
 	apagaLed(1);
 	apagaLed(2);
 	apagaLed(3);
-}
+}*/
 
 /** Configura o hardware da placa. */
 void iniciaHardware(){
 	/* Disable watchdog if enabled by bootloader/fuses */
 	MCUSR &= ~(1 << WDRF);
 	wdt_disable();
+	
+	CLKPR = 0x80;
 
 	/* Disable clock division */
 	clock_prescale_set(clock_div_1);
@@ -240,12 +287,12 @@ void iniciaHardware(){
 	RingBuffer_InitBuffer(&USB_DadosRecebidos_pt, USB_DadosRecebidos_Buf, sizeof(USB_DadosRecebidos_Buf));
 	RingBuffer_InitBuffer(&USB_DadosParaEnviar_pt, USB_DadosParaEnviar_Buf, sizeof(USB_DadosParaEnviar_Buf));
 
-	iniciaInterrupt5();
+	//iniciaInterrupt5();
 
 	GlobalInterruptEnable();
 }
 
-ISR(INT5_vect){
+/*ISR(INT5_vect){
 	playNote(somClick, 50);
 	resetBuffer();
 	reInicia_uMC();
@@ -262,7 +309,7 @@ ISR(INT5_vect){
 	bt2_waitRelease();
 	_delay_ms(2);
 	bt2_waitRelease();
-}
+}*/
 
 void iniciaInterrupt5(void) {
 	EIMSK |= (1 << INT5); /* enable INT5 */
@@ -488,7 +535,7 @@ void EVENT_USB_Device_Connect(void){
 
 /** Event handler for the library USB Disconnection event. */
 void EVENT_USB_Device_Disconnect(void){
-	status = 0;
+	conStatus = 0;
 }
 
 void EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t *const 	CDCInterfaceInfo) {
@@ -497,11 +544,11 @@ void EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t *const 	
 
 	/* Check if the DTR line has been asserted - if so, start the target AVR's reset pulse */
 	if(!(PreviousDTRState) && CurrentDTRState){
-		status = 1;
+		conStatus = 1;
 	}
 	else{
 		 if(PreviousDTRState && !(CurrentDTRState)){
-			 status = 0;
+			 conStatus = 0;
 		 }
 	}
 

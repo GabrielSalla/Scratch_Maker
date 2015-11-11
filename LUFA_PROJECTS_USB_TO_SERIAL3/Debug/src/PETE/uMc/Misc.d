@@ -12,7 +12,8 @@ src/PETE/uMc/Misc.d src/PETE/uMc/Misc.o: ../src/PETE/uMc/Misc.c \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\lock.h \
- ../src/PETE/uMc/digitalIO.h ../src/PETE/uMc/AD.h \
+ ../src/PETE/uMc/IO.h ../src/PETE/uMc/configuracaoLEGAL.h \
+ ../src/PETE/uMc/AD.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h \
@@ -21,7 +22,7 @@ src/PETE/uMc/Misc.d src/PETE/uMc/Misc.o: ../src/PETE/uMc/Misc.c \
  ../src/PETE/uMc/som.h ../src/PETE/uMc/escala8.h \
  ../src/PETE/uMc/definicoes.h ../src/PETE/uMc/USART.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\setbaud.h \
- ../src/PETE/uMc/motoresDC.h ../src/PETE/uMc/servo.h
+ ../src/PETE/uMc/servo.h
 
 ../src/PETE/uMc/Misc.h:
 
@@ -49,7 +50,9 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-../src/PETE/uMc/digitalIO.h:
+../src/PETE/uMc/IO.h:
+
+../src/PETE/uMc/configuracaoLEGAL.h:
 
 ../src/PETE/uMc/AD.h:
 
@@ -72,7 +75,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 ../src/PETE/uMc/USART.h:
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\setbaud.h:
-
-../src/PETE/uMc/motoresDC.h:
 
 ../src/PETE/uMc/servo.h:

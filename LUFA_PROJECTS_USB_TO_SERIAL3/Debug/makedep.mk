@@ -4,15 +4,13 @@
 
 Descriptors.c
 
-src\PETE\LEGAL\comandosAtuadores.c
-
-src\PETE\LEGAL\configuracaoLEGAL.c
-
 src\PETE\LEGAL\divercosLEGAL.c
 
 src\PETE\LEGAL\maqVirtual.c
 
 src\PETE\uMc\AD.c
+
+src\PETE\uMc\configuracaoLEGAL.c
 
 src\PETE\uMc\digitalIO.c
 

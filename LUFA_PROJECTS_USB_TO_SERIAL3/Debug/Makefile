@@ -63,11 +63,10 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../Descriptors.c \
-../src/PETE/LEGAL/comandosAtuadores.c \
-../src/PETE/LEGAL/configuracaoLEGAL.c \
 ../src/PETE/LEGAL/divercosLEGAL.c \
 ../src/PETE/LEGAL/maqVirtual.c \
 ../src/PETE/uMc/AD.c \
+../src/PETE/uMc/configuracaoLEGAL.c \
 ../src/PETE/uMc/digitalIO.c \
 ../src/PETE/uMc/Misc.c \
 ../src/PETE/uMc/motoresDc.c \
@@ -120,11 +119,10 @@ ASM_SRCS +=
 
 OBJS +=  \
 Descriptors.o \
-src/PETE/LEGAL/comandosAtuadores.o \
-src/PETE/LEGAL/configuracaoLEGAL.o \
 src/PETE/LEGAL/divercosLEGAL.o \
 src/PETE/LEGAL/maqVirtual.o \
 src/PETE/uMc/AD.o \
+src/PETE/uMc/configuracaoLEGAL.o \
 src/PETE/uMc/digitalIO.o \
 src/PETE/uMc/Misc.o \
 src/PETE/uMc/motoresDc.o \
@@ -170,11 +168,10 @@ uMc.o
 
 OBJS_AS_ARGS +=  \
 Descriptors.o \
-src/PETE/LEGAL/comandosAtuadores.o \
-src/PETE/LEGAL/configuracaoLEGAL.o \
 src/PETE/LEGAL/divercosLEGAL.o \
 src/PETE/LEGAL/maqVirtual.o \
 src/PETE/uMc/AD.o \
+src/PETE/uMc/configuracaoLEGAL.o \
 src/PETE/uMc/digitalIO.o \
 src/PETE/uMc/Misc.o \
 src/PETE/uMc/motoresDc.o \
@@ -220,11 +217,10 @@ uMc.o
 
 C_DEPS +=  \
 Descriptors.d \
-src/PETE/LEGAL/comandosAtuadores.d \
-src/PETE/LEGAL/configuracaoLEGAL.d \
 src/PETE/LEGAL/divercosLEGAL.d \
 src/PETE/LEGAL/maqVirtual.d \
 src/PETE/uMc/AD.d \
+src/PETE/uMc/configuracaoLEGAL.d \
 src/PETE/uMc/digitalIO.d \
 src/PETE/uMc/Misc.d \
 src/PETE/uMc/motoresDc.d \
@@ -270,11 +266,10 @@ uMc.d
 
 C_DEPS_AS_ARGS +=  \
 Descriptors.d \
-src/PETE/LEGAL/comandosAtuadores.d \
-src/PETE/LEGAL/configuracaoLEGAL.d \
 src/PETE/LEGAL/divercosLEGAL.d \
 src/PETE/LEGAL/maqVirtual.d \
 src/PETE/uMc/AD.d \
+src/PETE/uMc/configuracaoLEGAL.d \
 src/PETE/uMc/digitalIO.d \
 src/PETE/uMc/Misc.d \
 src/PETE/uMc/motoresDc.d \
@@ -332,8 +327,6 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 

@@ -56,8 +56,9 @@ inline void inicia_AD(void){
 	//DDRF &= 0x00;
 	
 	ADMUX |= (1 << REFS0);										/* coloca a voltage referencia em AVCC */
-	ADCSRA |= ((1 << ADPS2) | (1 << ADPS0));		/* ADC clock prescaler /64 */
+	ADCSRA |= (1 << ADPS2) | (1 << ADPS0);		/* ADC clock prescaler /64 */
 	ADCSRA |= (1 << ADEN);										/* habilita ADC */
+	ADCSRB |= (1 << 7);
 }
 
 void setupADCSleepmode(){
@@ -111,8 +112,13 @@ uint16_t leiuraMediaSleep(uint8_t channel){
 	ADCSRA |= (1 << ADSC);
 	for(uint8_t i=0; i<numeroDeLeituraMedia; i++){
 		//sleep_mode();
+		ADCSRA |= (1 << ADSC);
+		while(ADCSRA & (1 << ADSC));
 		oversample += ADC;
 	}
-	return(oversample >> deslocamentoParaMediaLeituras);
+	
+	oversample >>= deslocamentoParaMediaLeituras;
+	
+	return oversample;
 }
 

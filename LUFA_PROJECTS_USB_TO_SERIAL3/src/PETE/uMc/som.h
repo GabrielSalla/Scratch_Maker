@@ -13,6 +13,7 @@
 	#include <util/delay.h>
 	
 	#include "escala8.h"
+	#include "IO.h"
 	
 	
 	#define buzzer                 PB4                            /* OC0A */
@@ -23,6 +24,7 @@
 	
 /*   Funcoes   */
 void inicia_Timer(void);
+void som(void);
 void playNote(uint8_t wavelength, uint16_t duration);
 
 

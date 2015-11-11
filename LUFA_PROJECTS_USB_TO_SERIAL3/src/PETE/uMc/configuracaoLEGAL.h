@@ -9,7 +9,8 @@
 #ifndef CONFIGURACAOLEGAL_H_
 #define CONFIGURACAOLEGAL_H_
 
-#include "PETE/uMc/digitalIO.h"
+#include <avr/io.h>
+#include "IO.h"
 
 /*  Funções */
 void configura_pinos_uMC(void);

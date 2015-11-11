@@ -22,9 +22,9 @@
 	#include "src/PETE/uMc/AD.h"
 	#include "src/PETE/uMc/som.h"
 	#include "src/PETE/uMc/servo.h"
-	#include "src/PETE/uMc/motoresDC.h"
+	//#include "src/PETE/uMc/motoresDC.h"
 	
-	#include "src/PETE/LEGAL/comandosAtuadores.h"
+	//#include "src/PETE/LEGAL/comandosAtuadores.h"
 	
 	
 	//#include "src/PETE/LEGAL/divercos.h"	
@@ -34,11 +34,13 @@
 
 	
 	/* Variaveis */
-	volatile char uMC_Modo = MODO_CONECTADO;		
+	//volatile char uMC_Modo = MODO_CONECTADO;		
 	volatile uint8_t palavraRecebida[20];
 	volatile uint8_t palavraRecebida_pt =0;
 	volatile uint8_t palavraPronta=0;
 	volatile unsigned long milliseconds = 0;
+	uint8_t conStatus = 0;
+	uint8_t analogico5 = 0, analogico6 = 0, analogico9 = 0, cont5 = 0, cont6 = 0, cont9 = 0, contAnalogico = 0;
 	
 	/** Circular buffer to hold data from the host before it is sent to the device via the serial port. */
 	static RingBuffer_t USB_DadosRecebidos_pt;

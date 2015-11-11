@@ -8,7 +8,7 @@
 #include "digitalIO.h"
 
 /*  Inicia os Leds da placa */
-void inicia_LEDS(){
+/*void inicia_LEDS(){
 	DDRA |= (LED_L1 | LED_L2 | LED_L3);
 	DDRE |= (LED_D3R | LED_D3G);
 	
@@ -19,9 +19,9 @@ void inicia_LEDS(){
 }
 
 /*  Inicia os Botoes da placa */
-void inicia_Botoes()
+/*void inicia_Botoes()
 {
 	DDRE &= ~(bt1 | bt2);
 	PORTE |= (bt1 | bt2);
-}
+}*/
 

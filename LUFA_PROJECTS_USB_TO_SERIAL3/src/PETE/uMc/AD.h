@@ -38,8 +38,8 @@
 	#define ad_idmd		0x14
 	#define ad_idsv2	0x15
 	
-	#define numeroDeLeituraMedia			4	// numero de leituras para calcular o velor medio
-	#define deslocamentoParaMediaLeituras	2   // valor so shift (divisao) para o calculo da media
+	#define numeroDeLeituraMedia			8	// numero de leituras para calcular o velor medio
+	#define deslocamentoParaMediaLeituras	5   //3 para a média e mais 2 para deixar o máximo igual a 255
 	
 	
 	/* Funcoes */
